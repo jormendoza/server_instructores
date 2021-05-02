@@ -1,10 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser'); //bodyParser nos permite reicibir parametros por POST
-
-
-
 const mysqlConnection = require('../database.js');
+
+
+// create application/json parser
+var jsonParser = bodyParser.json();
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+
+
 
 // GET all cursos
 router.get('/cursos', (req, res) => {
@@ -127,5 +133,13 @@ router.put('/cursos/:id', urlencodedParser, (req, res) => {
     });
 
 });
+
+
+
+
+
+
+
+
 
 module.exports = router;

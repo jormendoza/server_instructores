@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 // Routes
 app.use(require('./routes/instructores'));
 app.use(require('./routes/cursos'));
+app.use(require('./routes/asistencias'));
 
 
 // Starting the server
