@@ -259,7 +259,7 @@
               <Parent>0</Parent>
             </CustomProperties>
             <Location>
-              <X>-400 px</X>
+              <X>-460 px</X>
               <Y>-140 px</Y>
             </Location>
             <Size>
@@ -281,8 +281,8 @@
           <ScaleMode>Free</ScaleMode>
           <Scale>1</Scale>
           <Location>
-            <X>-537.5 px</X>
-            <Y>-350.5 px</Y>
+            <X>-642 px</X>
+            <Y>-412.5 px</Y>
           </Location>
         </ViewPort>
       </Model>
