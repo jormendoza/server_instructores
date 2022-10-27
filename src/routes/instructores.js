@@ -1,12 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser'); //bodyParser nos permite reicibir parametros por POST
-
 const mysqlConnection = require('../database.js');
 
 // GET all
 router.get('/instructores', (req, res) => {
     mysqlConnection.query('SELECT * FROM instructores', (err, rows, fields) => {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.log(err);
+        }
+    });
+});
+
+router.get('/alumnos2', (req, res) => {
+    mysqlConnection.query('SELECT dni, apellidos FROM alumnos', (err, rows, fields) => {
         if (!err) {
             res.json(rows);
         } else {
@@ -64,17 +73,21 @@ router.delete('/instructores/dni/:dni', (req, res) => {
     });
 });
 
-// create application/json parser
-var jsonParser = bodyParser.json();
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+
+router.post('/instructores2', function(req, res) {
+    const { name, description } = req.body;
+    res.send(`Name ${name}, desc ${description}`);
+});
+
+
 
 // INSERT An instructor
-router.post('/instructores/', urlencodedParser, (req, res) => {
-    const { nombre, apellido, dni, email, fecha_nacimiento, provinciaUbicacion, usuario, clave, saldo } = req.body;
-
-    let sql = 'INSERT INTO instructores(nombre, apellido, dni, email, fecha_nacimiento, provinciaUbicacion, usuario, clave, saldo) VALUES (?,?,?,?,?,?,?,?,?)';
-    var valores = [nombre, apellido, dni, email, fecha_nacimiento, provinciaUbicacion, usuario, clave, saldo];
+router.post('/instructores/', function (req, res) {
+    console.log(req.body);
+    const { nombres, apellidos, dni, titulo, celular, foto_perfil, cv_corto, mp_public_key, mp_access_token } = req.body;
+    let sql = 'INSERT INTO instructores(nombres, apellidos, dni, titulo, celular, foto_perfil, cv_corto, mp_public_key, mp_access_token) VALUES (?,?,?,?,?,?,?,?,?)';
+    var valores = [nombres, apellidos, dni, titulo, celular, foto_perfil, cv_corto, mp_public_key, mp_access_token];
 
     mysqlConnection.query(sql, valores, (err, rows, fields) => {
         if (!err) {
@@ -88,14 +101,10 @@ router.post('/instructores/', urlencodedParser, (req, res) => {
 
 
 // Update un instructor
-router.put('/instructores/dni/:dni', urlencodedParser, (request, response) => {
+router.put('/instructores/dni/:dni', function (request, response){
     const dni = request.params.dni;
-    const { saldo } = request.body;
-    /* response.json({
-        dni: dni,
-        saldo: saldo
-    }); */
-    let sql = 'UPDATE instructores SET saldo=' + saldo + ' WHERE dni=' + dni;
+    const { celular } = request.body;
+    let sql = 'UPDATE instructores SET celular =' + celular + ' WHERE dni=' + dni;
     mysqlConnection.query(sql, (err, rows, fields) => {
         if (!err) {
             response.json({ ok: true });
